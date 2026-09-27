@@ -1,0 +1,8 @@
+import{r as m,j as e}from"./reactflow-C7l_rhnD.js";import{c as h,Z as u,h as n}from"./index-CWTJ8dV-.js";/**
+ * @license lucide-react v0.462.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const b=h("Copy",[["rect",{width:"14",height:"14",x:"8",y:"8",rx:"2",ry:"2",key:"17jyea"}],["path",{d:"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2",key:"zix9uf"}]]);function j({code:a,path:o,className:r,maxHeight:l=420,highlightLines:i=[]}){const[c,t]=m.useState(!1),x=a.replace(/\n$/,"").split(`
+`),p=async()=>{try{await navigator.clipboard.writeText(a),t(!0),setTimeout(()=>t(!1),1800)}catch{t(!1)}};return e.jsxs("div",{className:n("overflow-hidden",r),children:[e.jsxs("div",{className:"flex items-center gap-2 border-b border-line bg-canvas/60 px-3 py-1.5",children:[e.jsx("span",{className:"truncate font-mono text-[11px] text-subtle",children:o}),e.jsxs("button",{type:"button",onClick:p,className:"ml-auto inline-flex shrink-0 items-center gap-1 rounded px-1.5 py-0.5 text-[10px] text-subtle transition-colors hover:bg-raised hover:text-muted",children:[c?e.jsx(u,{className:"size-3 text-pass"}):e.jsx(b,{className:"size-3"}),c?"copied":"copy"]})]}),e.jsx("pre",{className:"overflow-auto bg-canvas/40 px-3 py-2.5 font-mono text-[11.5px] leading-[1.65] text-muted",style:{maxHeight:l},children:e.jsx("code",{children:x.map((d,s)=>e.jsxs("span",{className:n("block -mx-3 px-3",i.includes(s+1)&&"bg-accent/10 text-fg"),children:[e.jsx("span",{className:"mr-3 inline-block w-6 select-none text-right text-subtle/60 tabular",children:s+1}),d||" "]},s))})})]})}export{j as C};
+//# sourceMappingURL=CodeBlock-BweBfy_K.js.map
