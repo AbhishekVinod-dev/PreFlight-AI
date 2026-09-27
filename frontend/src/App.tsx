@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppShell } from '@/components/layout/AppShell'
 import { Spinner } from '@/components/ui/Feedback'
+import LandingPage from '@/pages/LandingPage'
 import DashboardPage from '@/pages/DashboardPage'
 import NewChangePage from '@/pages/NewChangePage'
 import AnalysisPage from '@/pages/AnalysisPage'
@@ -28,8 +29,11 @@ function Loading() {
 export default function App() {
   return (
     <Routes>
+      {/* Public marketing site. No console chrome by design. */}
+      <Route path="/" element={<LandingPage />} />
+
       <Route element={<AppShell />}>
-        <Route index element={<DashboardPage />} />
+        <Route path="dashboard" element={<DashboardPage />} />
         <Route path="changes" element={<ChangesPage />} />
         <Route path="changes/new" element={<NewChangePage />} />
         <Route path="changes/:changeRequestId/analyze" element={<AnalysisPage />} />
@@ -69,8 +73,11 @@ export default function App() {
             </Suspense>
           }
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Route>
+
+      {/* Unknown top-level URL: send the visitor to the site, not the console. */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }

@@ -14,19 +14,36 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const VARIANTS: Record<Variant, string> = {
   primary:
-    'bg-accent text-canvas hover:bg-accent/85 disabled:hover:bg-accent shadow-[0_1px_0_rgba(255,255,255,0.12)_inset]',
+    'bg-accent text-white hover:bg-accent/90 active:bg-accent disabled:hover:bg-accent shadow-[0_1px_2px_rgba(0,0,0,0.18),0_-1px_0_rgba(0,0,0,0.10)_inset]',
   secondary:
-    'bg-raised text-fg border border-line-strong hover:border-accent/60 hover:bg-line disabled:hover:border-line-strong disabled:hover:bg-raised',
-  ghost: 'text-muted hover:text-fg hover:bg-raised',
-  danger: 'bg-block/15 text-block border border-block/40 hover:bg-block/25',
-  success: 'bg-pass/15 text-pass border border-pass/40 hover:bg-pass/25',
-  quiet: 'text-subtle hover:text-muted hover:bg-raised',
+    'bg-white text-fg border border-line-strong hover:border-accent/70 hover:bg-surface hover:text-accent disabled:hover:border-line-strong disabled:hover:bg-white',
+  ghost: 'text-muted hover:text-fg hover:bg-panel active:bg-raised',
+  danger: 'bg-block/10 text-block border border-block/35 hover:bg-block/20 hover:border-block/60',
+  success: 'bg-pass/10 text-pass border border-pass/35 hover:bg-pass/20 hover:border-pass/60',
+  quiet: 'text-subtle hover:text-muted hover:bg-panel',
 }
 
 const SIZES: Record<Size, string> = {
   sm: 'h-7 px-2.5 text-xs gap-1.5 rounded-md',
   md: 'h-9 px-3.5 text-sm gap-2 rounded-md',
   lg: 'h-11 px-5 text-sm gap-2 rounded-lg',
+}
+
+export type ButtonVariant = Variant
+export type ButtonSize = Size
+
+/**
+ * Class string for a button appearance. Exported so anchors and links can
+ * borrow the exact same visual weight without rendering a real <button>.
+ */
+export function buttonClass(variant: Variant = 'secondary', size: Size = 'md', className?: string) {
+  return cn(
+    'inline-flex shrink-0 items-center justify-center font-medium transition-colors',
+    'disabled:cursor-not-allowed disabled:opacity-45',
+    VARIANTS[variant],
+    SIZES[size],
+    className,
+  )
 }
 
 export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
@@ -37,13 +54,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
     <button
       ref={ref}
       disabled={disabled || loading}
-      className={cn(
-        'inline-flex shrink-0 items-center justify-center font-medium transition-colors',
-        'disabled:cursor-not-allowed disabled:opacity-45',
-        VARIANTS[variant],
-        SIZES[size],
-        className,
-      )}
+      className={buttonClass(variant, size, className)}
       {...rest}
     >
       {loading ? <Loader2 className="size-3.5 animate-spin" /> : icon}

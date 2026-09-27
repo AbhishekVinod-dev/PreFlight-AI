@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import {
   Boxes,
   FileCode2,
@@ -20,7 +20,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { StatusBadge } from '@/components/ui/Badge'
 
 const NAV = [
-  { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
+  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/changes/new', label: 'New pre-flight', icon: Plus },
   { to: '/changes', label: 'Change requests', icon: GitPullRequestArrow },
   { to: '/architecture', label: 'Architecture graph', icon: Waypoints },
@@ -34,17 +34,19 @@ export function AppShell() {
   const { pathname } = useLocation()
 
   return (
-    <div className="relative z-10 flex min-h-screen">
+    <div className="relative z-10 flex min-h-screen lg:h-screen lg:overflow-hidden">
       {/* ---------------------------------------------------------- Sidebar */}
       <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-line bg-surface/70 backdrop-blur lg:flex">
         <div className="flex items-center gap-2.5 border-b border-line px-4 py-4">
-          <div className="grid size-8 shrink-0 place-items-center rounded-md border border-accent/40 bg-accent/10 text-accent">
-            <ShieldCheck className="size-4" />
-          </div>
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold tracking-tight">Architectural</p>
-            <p className="eyebrow">Pre-Flight</p>
-          </div>
+          <Link to="/dashboard" className="flex min-w-0 items-center gap-2.5">
+            <div className="grid size-8 shrink-0 place-items-center rounded-md border border-accent/40 bg-accent/10 text-accent">
+              <ShieldCheck className="size-4" />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold tracking-tight">Architectural</p>
+              <p className="eyebrow">Pre-Flight</p>
+            </div>
+          </Link>
         </div>
 
         <nav className="flex-1 space-y-0.5 overflow-y-auto p-2">
@@ -105,7 +107,7 @@ export function AppShell() {
       </aside>
 
       {/* ----------------------------------------------------------- Main */}
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col lg:h-screen lg:overflow-y-auto">
         <header className="sticky top-0 z-20 border-b border-line bg-canvas/85 backdrop-blur">
           <div className="flex h-14 items-center gap-3 px-4 sm:px-6">
             <div className="flex items-center gap-2 lg:hidden">
@@ -116,6 +118,12 @@ export function AppShell() {
               bob-preflight · {project?.name.toLowerCase() ?? 'repo'}@{project?.defaultBranch ?? 'main'}
             </p>
             <div className="ml-auto flex items-center gap-2">
+              <Link
+                to="/"
+                className="hidden text-[11px] text-subtle underline-offset-2 hover:text-muted hover:underline sm:inline"
+              >
+                Product site
+              </Link>
               <a
                 href="https://bob.ibm.com/docs/ide"
                 target="_blank"
