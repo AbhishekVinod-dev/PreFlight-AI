@@ -220,6 +220,37 @@
       transparent 6px 12px
     );
   }
+
+  .glass-panel {
+    background-color: color-mix(in oklab, var(--color-surface) 75%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 20px -3px color-mix(in oklab, var(--color-accent) 25%, transparent);
+  }
+
+  .glow-rose {
+    box-shadow: 0 0 20px -3px color-mix(in oklab, var(--color-block) 25%, transparent);
+  }
+
+  .glow-amber {
+    box-shadow: 0 0 20px -3px color-mix(in oklab, var(--color-review) 25%, transparent);
+  }
+
+  .glow-emerald {
+    box-shadow: 0 0 20px -3px color-mix(in oklab, var(--color-pass) 25%, transparent);
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* ------------------------------------------------------------------ *

@@ -171,5 +171,6 @@ export function analyzeIntent(description: string): ChangeProposal {
     expectedRisk: floor,
     assumptions,
     clarifications,
+    notes,
   }
 }

@@ -189,6 +189,8 @@ export interface ChangeProposal {
   /** Populated when the analyzer needs a human to disambiguate intent. */
   assumptions: string[]
   clarifications?: string[]
+  /** Specific risk rationales extracted from matched signals */
+  notes?: string[]
 }
 
 /* ------------------------------------------------------------------ *
