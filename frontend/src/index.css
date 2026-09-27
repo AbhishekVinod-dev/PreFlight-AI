@@ -1,0 +1,257 @@
+@import 'tailwindcss';
+@import '@xyflow/react/dist/style.css';
+
+/* ==========================================================================
+   Architectural Pre-Flight - design tokens
+   A governance / gate product: dense, instrumented, high signal-to-noise.
+   ========================================================================== */
+
+@theme {
+  /* surfaces, darkest to lightest */
+  --color-canvas: #06090e;
+  --color-surface: #0b1017;
+  --color-panel: #101722;
+  --color-raised: #16202d;
+  --color-line: #1c2635;
+  --color-line-strong: #2a3949;
+
+  /* type */
+  --color-fg: #e9eff7;
+  --color-muted: #94a5bb;
+  --color-subtle: #64748b;
+
+  /* decision signals - the core vocabulary of the product */
+  --color-pass: #35d6a0;
+  --color-review: #f6b545;
+  --color-block: #fb7185;
+  --color-unknown: #22d3ee;
+  --color-accent: #4d8dff;
+  --color-agent: #a78bfa;
+
+  --font-sans:
+    'Inter var', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:
+    'JetBrains Mono', ui-monospace, 'SFMono-Regular', 'SF Mono', Menlo, Consolas, monospace;
+
+  --animate-fade-in: fade-in 0.28s ease-out both;
+  --animate-rise: rise 0.34s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-pulse-ring: pulse-ring 1.8s ease-out infinite;
+  --animate-scan: scan 2.4s linear infinite;
+  --animate-dash: dash 1s linear infinite;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-accent) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 10px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(1000%);
+  }
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-canvas);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv02', 'cv03', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Subtle blueprint grid - reads as "engineering instrument". */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--color-line) 40%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--color-line) 40%, transparent) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 120% 80% at 50% 0%, black 10%, transparent 75%);
+    opacity: 0.55;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 40%, transparent);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  /* Focus ring: always visible, never removed. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line-strong);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3b4d61;
+    background-clip: content-box;
+  }
+}
+
+@layer components {
+  .panel {
+    background-color: color-mix(in oklab, var(--color-panel) 88%, transparent);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+  }
+
+  .panel-raised {
+    background-color: var(--color-raised);
+    border: 1px solid var(--color-line-strong);
+    border-radius: 10px;
+  }
+
+  /* Small all-caps label used above every data block. */
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-subtle);
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Hatched fill for BLOCK surfaces, keeps the signal readable. */
+  .hatch-block {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      color-mix(in oklab, var(--color-block) 12%, transparent) 0 6px,
+      transparent 6px 12px
+    );
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * React Flow overrides - match the surrounding instrument panel.
+ * ------------------------------------------------------------------ */
+.react-flow {
+  --xy-background-color: transparent;
+  --xy-edge-stroke-default: var(--color-line-strong);
+  --xy-edge-stroke-selected-default: var(--color-accent);
+  --xy-connectionline-stroke-default: var(--color-accent);
+  --xy-attribution-background-color-default: transparent;
+  background: transparent;
+}
+
+.react-flow__attribution {
+  display: none;
+}
+
+.react-flow__handle {
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--color-line-strong);
+  background: var(--color-panel);
+}
+
+.react-flow__edge-path {
+  stroke-linecap: round;
+}
+
+.react-flow__edge.edge-violated .react-flow__edge-path {
+  stroke: var(--color-block);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+  animation: var(--animate-dash);
+}
+
+.react-flow__edge.edge-allowed .react-flow__edge-path {
+  stroke: color-mix(in oklab, var(--color-pass) 65%, var(--color-line-strong));
+}
+
+.react-flow__edge.edge-neutral .react-flow__edge-path {
+  stroke: var(--color-line-strong);
+}
+
+.react-flow__controls-button {
+  background: var(--color-raised);
+  border-bottom: 1px solid var(--color-line);
+  fill: var(--color-muted);
+}
+
+.react-flow__controls-button:hover {
+  background: var(--color-line);
+}
+
+/* ------------------------------------------------------------------ *
+ * Monaco overrides.
+ * ------------------------------------------------------------------ */
+.monaco-editor,
+.monaco-editor-background,
+.monaco-editor .margin {
+  background-color: var(--color-canvas) !important;
+}
